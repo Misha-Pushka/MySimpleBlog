@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:13 # Указываем версию образа PostgreSQL
+    container_name: postgres_db # Название контейнера
+    environment:
+      POSTGRES_USER: myuser # Имя пользователя PostgreSQL
+      POSTGRES_PASSWORD: mypassword # Пароль для пользователя PostgreSQL
+      POSTGRES_DB: mydatabase # Имя базы данных
+    ports:
+      - "5432:5432" # Проброс порта PostgreSQL
+    volumes:
+      - db_data:/var/lib/postgresql/data # Настройка постоянного хранилища данных
+
+volumes:
+  db_data: # Определение именованного тома для данных PostgreSQL
