@@ -1,6 +1,9 @@
 package com.misha.pushka.mysimpleblog.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -8,8 +11,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class TwitGetDto {
+public class TwitKafkaDto {
+    private UUID authorId;
     private UUID id;
     private String body;
 }

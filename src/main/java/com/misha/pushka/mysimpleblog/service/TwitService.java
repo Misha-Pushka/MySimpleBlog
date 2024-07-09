@@ -3,6 +3,8 @@ package com.misha.pushka.mysimpleblog.service;
 import com.misha.pushka.mysimpleblog.dto.FeedResponse;
 import com.misha.pushka.mysimpleblog.dto.TwitCreateDto;
 import com.misha.pushka.mysimpleblog.dto.TwitGetDto;
+import com.misha.pushka.mysimpleblog.dto.TwitKafkaDto;
+import com.misha.pushka.mysimpleblog.kafka.producer.KafkaProducer;
 import com.misha.pushka.mysimpleblog.model.Twit;
 import com.misha.pushka.mysimpleblog.repository.TwitRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +20,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TwitService {
     private final TwitRepository twitRepository;
+    private final KafkaProducer kafkaProducer;
     private final ModelMapper twitMapper;
 
     public void createTwit(TwitCreateDto twit) {
-        twitRepository.save(twitMapper.map(twit, Twit.class));
+        Twit createdTwit = twitRepository.save(twitMapper.map(twit, Twit.class));
+        kafkaProducer.sendMessage(new TwitKafkaDto(createdTwit.getUser().getId(), createdTwit.getId(), createdTwit.getBody()));
     }
 
     public List<TwitGetDto> getTwitsByUser(UUID userId) {

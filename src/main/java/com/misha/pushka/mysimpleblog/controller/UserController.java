@@ -23,7 +23,4 @@ public class UserController {
     public void createUser(@RequestBody UserCreateDto user) {
         userService.createUser(user);
     }
-
-
-
 }
